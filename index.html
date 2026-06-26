@@ -380,7 +380,7 @@
       <span class="sub">Automatisation</span>
     </a>
     <div class="meta">
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=relay.civ@gmail.com&su=Bonjour%20Relay" target="_blank" rel="noopener noreferrer">relay.civ@gmail.com</a>
+      <a href="mailto:relay.civ@gmail.com?subject=Bonjour%20Relay">relay.civ@gmail.com</a>
       <span>Abidjan · Côte d'Ivoire</span>
       <span>© 2026 Relay</span>
     </div>
@@ -433,8 +433,12 @@
     const p=PACKS[currentPack];
     const sig=name?('Cordialement,\n'+name):'Cordialement,';
     const body='Bonjour,\n\n'+p.line+'\n\nMerci de me recontacter pour la suite.\n\n'+sig;
-    const url='https://mail.google.com/mail/?view=cm&fs=1&to=relay.civ@gmail.com&su='+encodeURIComponent(p.su)+'&body='+encodeURIComponent(body);
-    window.open(url,'_blank');
+    const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i.test(navigator.userAgent||'');
+    if(isMobile){
+      window.location.href='mailto:relay.civ@gmail.com?subject='+encodeURIComponent(p.su)+'&body='+encodeURIComponent(body);
+    } else {
+      window.open('https://mail.google.com/mail/?view=cm&fs=1&to=relay.civ@gmail.com&su='+encodeURIComponent(p.su)+'&body='+encodeURIComponent(body),'_blank');
+    }
     closeOrder();
   }
   document.getElementById('modalSend').addEventListener('click',sendOrder);
