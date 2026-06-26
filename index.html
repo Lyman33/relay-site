@@ -31,7 +31,7 @@
 
   /* NAV */
   header.nav{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .4s, border-color .4s, backdrop-filter .4s;border-bottom:1px solid transparent}
-  header.nav.scrolled{background:rgba(0,0,0,.7);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  header.nav.scrolled{background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px}
   .brand{display:flex;flex-direction:column;gap:5px;line-height:1}
   .brand img{height:24px;width:auto;display:block}
@@ -134,7 +134,7 @@
   .foot .meta a:hover{color:#fff}
 
   /* MODAL */
-  .modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.74);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s}
+  .modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s}
   .modal-overlay.open{opacity:1;visibility:visible}
   .modal{position:relative;width:100%;max-width:440px;background:var(--surface);border:1px solid var(--line-2);border-radius:20px;padding:38px 34px;transform:translateY(18px) scale(.98);transition:transform .35s cubic-bezier(.2,.7,.2,1);box-shadow:0 40px 90px -30px rgba(255,255,255,.2)}
   .modal-overlay.open .modal{transform:none}
@@ -165,12 +165,10 @@
     .steps{border-radius:18px}
     .hero{padding:130px 0 56px}
     .plan.feat{order:-1}
-    .node .nlabel{font-size:10.5px}
+    .node .nlabel{font-size:9.5px}
   }
   @media(prefers-reduced-motion:reduce){
-    .pulse,.hero-glow,.node.end .dot{animation:none}
-    .reveal,.stagger>*{transition:none;opacity:1;transform:none}
-    .glowin.in{animation:none}
+    .hero-glow{animation:none}
     html{scroll-behavior:auto}
   }
 </style>
@@ -202,7 +200,7 @@
 
     <div class="relay-vis reveal">
       <div class="relay-track">
-        <div class="node"><div class="dot"></div><span class="nlabel" id="cycler">Messages clients</span></div>
+        <div class="node"><div class="dot"></div><span class="nlabel" id="cycler">Messages</span></div>
         <div class="node mid"><div class="dot"></div><span class="nlabel">Relay</span></div>
         <div class="node end"><div class="dot"></div><span class="nlabel">Automatisé</span></div>
         <div class="pulse"></div>
@@ -395,10 +393,10 @@
     <button class="modal-close" id="modalClose" aria-label="Fermer">×</button>
     <span class="label">Dernière étape</span>
     <h3 id="modalTitle">Réserver</h3>
-    <p class="modal-sub">Indiquez votre nom : votre message sera entièrement prérédigé. Vous n'aurez plus qu'à appuyer sur Envoyer.</p>
+    <p class="modal-sub">Renseignez votre nom pour continuer.</p>
     <label class="modal-flabel" for="orderName">Votre nom</label>
     <input id="orderName" class="modal-input" type="text" placeholder="Ex : Awa Koné" autocomplete="name" />
-    <button class="btn btn-primary modal-send" id="modalSend">Ouvrir mon email prérempli</button>
+    <button class="btn btn-primary modal-send" id="modalSend">Ouvrir mon email</button>
   </div>
 </div>
 
@@ -410,11 +408,10 @@
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0, rootMargin:'0px 0px 120px 0px'});
   document.querySelectorAll('.reveal,.stagger,.glowin').forEach(el=>io.observe(el));
 
-  const tasks=["Messages clients","Réservations","Factures impayées","Relances","Avis Google","Rapports","Devis","Demandes d'inscription"];
+  const tasks=["Messages","Réservations","Factures","Relances","Avis Google","Rapports","Devis","Inscriptions"];
   const cyc=document.getElementById('cycler');
   let ti=0;
-  const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(cyc && !reduce){
+  if(cyc){
     setInterval(()=>{cyc.style.opacity='0';setTimeout(()=>{ti=(ti+1)%tasks.length;cyc.textContent=tasks[ti];cyc.style.opacity='1';},380);},3000);
   }
 
